@@ -77,8 +77,10 @@ copy(
   'LICENSE',
 );
 
-std.write(eslintrc, '.eslintrc');
-std.write(rollup, 'rollup.config.js', { format: std.Format.Raw });
-std.write(jkPackage(params.name), 'package.json');
-std.write('', `lib/.keep`, { format: std.Format.Raw });
-std.write(helloWorld, `src/${params.name}.js`, { format: std.Format.Raw, override: false });
+export default [
+  { value: eslintrc, file: '.eslintrc' },
+  { value: rollup, file: 'rollup.config.js' },
+  { value: jkPackage(params.name), file: 'package.json' },
+  { value: '', file: 'lib/.keep' },
+  { value: helloWorld, file: `src/${params.name}.js`, override: false },
+];
