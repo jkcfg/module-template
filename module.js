@@ -22,7 +22,7 @@ const eslintrc = {
 const jkPackage = module => ({
   name: `@jkcfg/${module.name}`,
   version: '0.1.0',
-  description: 'jk standard library',
+  description: `${module.description}`,
   main: `lib/${module.name}.mjs`,
   scripts: {
     lint: 'eslint src',
