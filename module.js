@@ -1,8 +1,7 @@
 import * as std from '@jkcfg/std';
+import * as param from '@jkcfg/std/param';
 
-const params = {
-  name: 'mixins',
-};
+const module = param.Object('module');
 
 function copy(...filenames) {
   for (const filename of filenames) {
@@ -20,11 +19,11 @@ const eslintrc = {
   },
 };
 
-const jkPackage = name => ({
-  name: `@jkcfg/${name}`,
+const jkPackage = module => ({
+  name: `@jkcfg/${module.name}`,
   version: '0.1.0',
   description: 'jk standard library',
-  main: `lib/${name}.mjs`,
+  main: `lib/${module.name}.mjs`,
   scripts: {
     lint: 'eslint src',
     build: 'tsc',
@@ -32,7 +31,7 @@ const jkPackage = name => ({
   },
   repository: {
     type: 'git',
-    url: `git+https://github.com/jkcfg/${name}.git`,
+    url: `git+https://github.com/jkcfg/${module.name}.git`,
   },
   keywords: [
     'configuration',
@@ -42,9 +41,9 @@ const jkPackage = name => ({
   author: 'The jk Authors',
   license: 'Apache-2.0',
   bugs: {
-    url: `https://github.com/jkcfg/${name}/issues`,
+    url: `https://github.com/jkcfg/${module.name}/issues`,
   },
-  homepage: `https://github.com/jkcfg/${name}#readme`,
+  homepage: `https://github.com/jkcfg/${module.name}#readme`,
   devDependencies: {
     '@jkcfg/std': '^0.2.7',
     'eslint': '^5.9.0',
@@ -96,7 +95,7 @@ copy(
 
 export default [
   { value: eslintrc, file: '.eslintrc' },
-  { value: tsconfig(params), file: 'tsconfig.json' },
-  { value: jkPackage(params.name), file: 'package.json' },
-  { value: helloWorld, file: `src/${params.name}.ts`, override: false },
+  { value: tsconfig(module), file: 'tsconfig.json' },
+  { value: jkPackage(module), file: 'package.json' },
+  { value: helloWorld, file: `src/${module.name}.ts`, override: false },
 ];
