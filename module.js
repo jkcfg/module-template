@@ -9,7 +9,7 @@ function copy(...filenames) {
 
   for (const filename of filenames) {
     promises.push(
-      std.read(`assets/${filename}`).then(
+      std.read(`assets/${filename}`, { encoding: std.Encoding.String }).then(
         content => ({ name: filename, content }),
         err => std.write(`[ERROR] ${err.toString()}`),
       ),
