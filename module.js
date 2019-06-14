@@ -5,23 +5,12 @@ const params = {
 };
 
 function copy(...filenames) {
-  const promises = [];
-
   for (const filename of filenames) {
-    promises.push(
-      std.read(`assets/${filename}`, { encoding: std.Encoding.String }).then(
-        content => ({ name: filename, content }),
+    std.read(`assets/${filename}`, { encoding: std.Encoding.Bytes }).then(
+        content => std.write(String.fromCharCode(...content), filename),
         err => std.write(`[ERROR] ${err.toString()}`),
-      ),
-    );
+      );
   }
-
-  Promise.all(promises).then((files) => {
-    for (let i = 0; i < files.length; i += 1) {
-      const file = files[i];
-      std.write(String.fromCharCode(...file.content), file.name, { format: std.Format.Raw });
-    }
-  });
 }
 
 const eslintrc = {
