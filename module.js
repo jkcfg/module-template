@@ -1,4 +1,4 @@
-import std from 'std';
+import * as std from '@jkcfg/std';
 
 const params = {
   name: 'mixins',
@@ -75,7 +75,7 @@ const jkPackage = name => ({
   dependencies: {},
 });
 
-const helloWorld = `import std from 'std';
+const helloWorld = `import * as std from '@jkcfg/std';
 
 export default function () {
   std.log('Hello, World!');
