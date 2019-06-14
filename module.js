@@ -20,14 +20,6 @@ const eslintrc = {
   },
 };
 
-const rollup = `export default {
-  input: './src/${params.name}.js',
-  output: {
-    format: 'es',
-  },
-};
-`;
-
 const jkPackage = name => ({
   name: `@jkcfg/${name}`,
   version: '0.1.0',
@@ -35,7 +27,7 @@ const jkPackage = name => ({
   main: `lib/${name}.mjs`,
   scripts: {
     lint: 'eslint src',
-    build: `rollup -c | terser --mangle --module > lib/${name}.mjs`,
+    build: 'tsc',
     test: 'npm run lint',
   },
   repository: {
@@ -54,14 +46,39 @@ const jkPackage = name => ({
   },
   homepage: `https://github.com/jkcfg/${name}#readme`,
   devDependencies: {
-    eslint: '^5.9.0',
+    '@jkcfg/std': '^0.2.7',
+    'eslint': '^5.9.0',
     'eslint-config-airbnb-base': '^13.1.0',
     'eslint-plugin-import': '^2.14.0',
-    rollup: '^0.67.0',
-    'rollup-plugin-includepaths': '^0.2.3',
-    terser: '^3.10.11',
+    'typescript': '^3.4.3',
   },
   dependencies: {},
+});
+
+const tsconfig = module => ({
+  compilerOptions: {
+    outDir: `@jkcfg/${module.name}`,
+    allowJs: true,
+    target: 'es2017',
+    module: 'es6',
+    moduleResolution: 'node',
+    sourceMap: false,
+    stripInternal: true,
+    experimentalDecorators: true,
+    pretty: true,
+    noFallthroughCasesInSwitch: true,
+    noImplicitAny: false,
+    noImplicitReturns: true,
+    forceConsistentCasingInFileNames: true,
+    strictNullChecks: true,
+  },
+  include: [
+    'src',
+  ],
+  exclude: [
+    'node_modules',
+    'example',
+  ],
 });
 
 const helloWorld = `import * as std from '@jkcfg/std';
@@ -79,8 +96,7 @@ copy(
 
 export default [
   { value: eslintrc, file: '.eslintrc' },
-  { value: rollup, file: 'rollup.config.js' },
+  { value: tsconfig(params), file: 'tsconfig.json' },
   { value: jkPackage(params.name), file: 'package.json' },
-  { value: '', file: 'lib/.keep' },
-  { value: helloWorld, file: `src/${params.name}.js`, override: false },
+  { value: helloWorld, file: `src/${params.name}.ts`, override: false },
 ];
