@@ -23,7 +23,7 @@ const jkPackage = module => ({
   name: `@jkcfg/${module.name}`,
   version: '0.1.0',
   description: `${module.description}`,
-  main: `lib/${module.name}.mjs`,
+  module: `${module.name}.js`,
   scripts: {
     lint: 'eslint src',
     build: 'tsc',
