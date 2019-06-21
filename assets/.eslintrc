@@ -19,6 +19,8 @@
     "@typescript-eslint/no-explicit-any": off,
     "@typescript-eslint/no-angle-bracket-type-assertion": "off",
     "@typescript-eslint/explicit-member-accessibility": "off",
+    "@typescript-eslint/camelcase": "off",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "no-continue": 0,
     "lines-between-class-members": "off",
     "prefer-const": ["error", {"destructuring": "all"}],
@@ -34,6 +36,7 @@
     ],
     "no-restricted-syntax": ["error", "ForInStatement", "LabeledStatement", "WithStatement"],
     "no-use-before-define": ["error", { "functions": false }],
-    "no-useless-constructor": "off"
+    "no-useless-constructor": "off",
+    "no-param-reassign": "off",
   }
 }
