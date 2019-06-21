@@ -6,16 +6,16 @@ const module = param.Object('module');
 function copy(...filenames) {
   for (const filename of filenames) {
     std.read(`assets/${filename}`, { encoding: std.Encoding.Bytes }).then(
-        content => std.write(String.fromCharCode(...content), filename),
-        err => std.write(`[ERROR] ${err.toString()}`),
-      );
+      content => std.write(String.fromCharCode(...content), filename),
+      err => std.write(`[ERROR] ${err.toString()}`),
+    );
   }
 }
 
 const eslintrc = {
   extends: 'airbnb-base',
   rules: {
-    'import/no-unresolved': [ 2, { ignore: [ '^std$' ] } ],
+    'import/no-unresolved': [2, { ignore: ['^std$'] }],
   },
 };
 
