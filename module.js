@@ -93,9 +93,52 @@ copy(
   'LICENSE',
 );
 
+const Makefile = module => `
+.PHONY: dist clean gen test
+
+all: dist
+
+dist:
+	npx tsc
+	cp README.md LICENSE package.json @jkcfg/${module.name}
+
+clean:
+	rm -rf @jkcfg
+`.trim();
+
+const travis = module => ({
+  language: 'node_js',
+  node_js: [
+    "node" // always use the latest; we are only using it as a test runner for now
+  ],
+  cache: 'npm',
+
+  jobs: {
+    include: [{
+      stage: 'Tests',
+      name: 'lint',
+      script: 'npm run lint',
+    }, {
+      name: 'dist',
+      script: 'make dist',
+    }, {
+      stage: 'Deploy',
+      script: [
+        // build and publish
+        'make dist',
+        "echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > @jkcfg/kubernetes/.npmrc",
+        `(cd @jkcfg/${module.name} && npm publish)`,
+      ],
+      if: 'tag IS present',
+    }],
+  },
+});
+
 export default [
   { value: eslintrc, file: '.eslintrc' },
   { value: tsconfig(module), file: 'tsconfig.json' },
   { value: jkPackage(module), file: 'package.json' },
   { value: helloWorld, file: `src/${module.name}.ts`, override: false },
+  { value: Makefile(module), file: 'Makefile' },
+  { value: travis(module), file: '.travis.yml' },
 ];
