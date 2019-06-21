@@ -88,12 +88,6 @@ export default function () {
 }
 `.trim();
 
-copy(
-  '.editorconfig',
-  '.gitignore',
-  'LICENSE',
-);
-
 const Makefile = module => `
 .PHONY: dist clean gen test
 
@@ -140,6 +134,12 @@ const README = module => `
 
 ${module.description}.
 `.trim();
+
+copy(
+  '.editorconfig',
+  '.gitignore',
+  'LICENSE',
+);
 
 export default [
   { value: eslintrc, file: '.eslintrc' },
