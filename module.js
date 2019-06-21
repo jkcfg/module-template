@@ -144,7 +144,7 @@ copy(
 export default [
   { value: tsconfig(module), file: 'tsconfig.json' },
   { value: jkPackage(module), file: 'package.json' },
-  { value: helloWorld, file: `src/${module.name}.ts`, override: false },
+  { value: helloWorld, file: `src/${module.name}.ts`, overwrite: false },
   { value: Makefile(module), file: 'Makefile' },
   { value: travis(module), file: '.travis.yml' },
   { value: README(module), file: 'README.md' },
