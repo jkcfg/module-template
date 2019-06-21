@@ -134,6 +134,12 @@ const travis = module => ({
   },
 });
 
+const README = module => `
+# @jkcfg/${module.name}
+
+${module.description}.
+`.trim();
+
 export default [
   { value: eslintrc, file: '.eslintrc' },
   { value: tsconfig(module), file: 'tsconfig.json' },
@@ -141,4 +147,5 @@ export default [
   { value: helloWorld, file: `src/${module.name}.ts`, override: false },
   { value: Makefile(module), file: 'Makefile' },
   { value: travis(module), file: '.travis.yml' },
+  { value: README(module), file: 'README.md' },
 ];
