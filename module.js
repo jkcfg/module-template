@@ -12,20 +12,13 @@ function copy(...filenames) {
   }
 }
 
-const eslintrc = {
-  extends: 'airbnb-base',
-  rules: {
-    'import/no-unresolved': [2, { ignore: ['^std$'] }],
-  },
-};
-
 const jkPackage = module => ({
   name: `@jkcfg/${module.name}`,
   version: `${module.version}`,
   description: `${module.description}`,
   module: `${module.name}.js`,
   scripts: {
-    lint: 'eslint src',
+    lint: 'eslint src/**/*.ts',
     build: 'tsc',
     test: 'npm run lint',
   },
@@ -46,10 +39,16 @@ const jkPackage = module => ({
   homepage: `https://github.com/jkcfg/${module.name}#readme`,
   devDependencies: {
     '@jkcfg/std': '^0.2.7',
-    'eslint': '^5.9.0',
-    'eslint-config-airbnb-base': '^13.1.0',
-    'eslint-plugin-import': '^2.14.0',
     'typescript': '^3.4.3',
+
+    // eslint
+    "eslint": "^5.12.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.17.2",
+    "@typescript-eslint/eslint-plugin": "^1.7.0",
+
+    // testing with jest
+    "eslint-plugin-jest": "^22.4.1",
   },
   dependencies: {},
 });
@@ -137,12 +136,12 @@ ${module.description}.
 
 copy(
   '.editorconfig',
+  '.eslintrc',
   '.gitignore',
   'LICENSE',
 );
 
 export default [
-  { value: eslintrc, file: '.eslintrc' },
   { value: tsconfig(module), file: 'tsconfig.json' },
   { value: jkPackage(module), file: 'package.json' },
   { value: helloWorld, file: `src/${module.name}.ts`, override: false },
