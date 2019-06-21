@@ -21,7 +21,7 @@ const eslintrc = {
 
 const jkPackage = module => ({
   name: `@jkcfg/${module.name}`,
-  version: '0.1.0',
+  version: `${module.version}`,
   description: `${module.description}`,
   module: `${module.name}.js`,
   scripts: {
