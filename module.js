@@ -45,6 +45,7 @@ const jkPackage = module => ({
     "eslint": "^5.12.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.2",
+    "@typescript-eslint/parser": "^1.10.2",
     "@typescript-eslint/eslint-plugin": "^1.7.0",
 
     // testing with jest
