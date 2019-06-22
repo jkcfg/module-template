@@ -18,9 +18,9 @@ const jkPackage = module => ({
   description: `${module.description}`,
   module: `${module.name}.js`,
   scripts: {
-    lint: 'eslint src/**/*.ts',
+    lint: 'eslint {src,tests}/**/*.ts',
     build: 'tsc',
-    test: 'npm run lint',
+    test: 'jest',
   },
   repository: {
     type: 'git',
@@ -37,6 +37,7 @@ const jkPackage = module => ({
     url: `https://github.com/jkcfg/${module.name}/issues`,
   },
   homepage: `https://github.com/jkcfg/${module.name}#readme`,
+  dependencies: {},
   devDependencies: {
     '@jkcfg/std': '^0.2.7',
     'typescript': '^3.4.3',
@@ -49,9 +50,38 @@ const jkPackage = module => ({
     "@typescript-eslint/eslint-plugin": "^1.7.0",
 
     // testing with jest
+    "jest": "^24.8.0",
+    "babel-jest": "^24.8.0",
+    "@babel/preset-env": "^7.4.5",
     "eslint-plugin-jest": "^22.4.1",
+    '@types/jest': '^24.0.15',
+    "ts-jest": "^24.0.2",
   },
-  dependencies: {},
+  jest: {
+    preset: 'ts-jest/presets/js-with-babel',
+    globals: {
+      'ts-jest': {
+        diagnostics: {
+          'ignoreCodes': [
+            151001,
+          ]
+        }
+      }
+    },
+    testMatch: [
+      '<rootDir>/tests/*.test.js',
+      '<rootDir>/tests/*.test.ts',
+    ],
+    transformIgnorePatterns: [
+      '<rootDir>/@jkcfg/',
+    ],
+    modulePathIgnorePatterns: [
+      '<rootDir>/@jkcfg/',
+    ],
+    moduleDirectories: [
+      '<rootDir>/node_modules',
+    ]
+  },
 });
 
 const tsconfig = module => ({
@@ -114,6 +144,9 @@ const travis = module => ({
       name: 'lint',
       script: 'npm run lint',
     }, {
+      name: 'unit tests',
+      script: 'npm run test',
+    }, {
       name: 'dist',
       script: 'make dist',
     }, {
@@ -135,6 +168,12 @@ const README = module => `
 ${module.description}.
 `.trim();
 
+const babelrc = (module) => ({
+  presets: [
+    '@babel/preset-env'
+  ],
+})
+
 copy(
   '.editorconfig',
   '.eslintrc',
@@ -149,4 +188,5 @@ export default [
   { value: Makefile(module), file: 'Makefile' },
   { value: travis(module), file: '.travis.yml' },
   { value: README(module), file: 'README.md' },
+  { value: babelrc(module), file: '.babelrc' },
 ];
