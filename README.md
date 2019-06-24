@@ -23,3 +23,5 @@ jk generate -f grafana.yaml /path/to/module-template/module.js
 ```
 
 Where `grafana.yaml` holds the template definition.
+
+[jk]: https://github.com/jkcfg/jk
