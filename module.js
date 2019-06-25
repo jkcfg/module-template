@@ -154,7 +154,7 @@ const travis = module => ({
       script: [
         // build and publish
         'make dist',
-        "echo '//registry.npmjs.org/:_authToken=${NPM_TOKEN}' > @jkcfg/kubernetes/.npmrc",
+        `echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > @jkcfg/${module.name}/.npmrc`,
         `(cd @jkcfg/${module.name} && npm publish)`,
       ],
       if: 'tag IS present',
