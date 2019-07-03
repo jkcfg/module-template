@@ -181,10 +181,14 @@ const babelrc = (module) => ({
   ],
 })
 
+const gitignore = `
+/@jkcfg
+/node_modules
+`.trim();
+
 copy(
   '.editorconfig',
   '.eslintrc',
-  '.gitignore',
   'LICENSE',
 );
 
@@ -194,6 +198,7 @@ export default [
   { value: helloWorld, file: `${module.sourceDir}/${module.name}.ts`, overwrite: false },
   { value: Makefile(module), file: 'Makefile' },
   { value: travis(module), file: '.travis.yml' },
-  { value: README(module), file: 'README.md' },
+  { value: README(module), file: 'README.md', overwrite: false },
   { value: babelrc(module), file: '.babelrc' },
+  { value: gitignore, file: '.gitignore', overwrite: false },
 ];
