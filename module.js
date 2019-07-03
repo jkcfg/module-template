@@ -6,6 +6,7 @@ const module = function() {
   return merge.patch({
     version: '0.1.0',
     organization: 'jkcfg',
+    sourceDir: 'src',
   }, param.Object('module'));
 }();
 
@@ -24,7 +25,7 @@ const jkPackage = module => ({
   description: `${module.description}`,
   module: `${module.name}.js`,
   scripts: {
-    lint: 'eslint {src,tests}/**/*.ts',
+    lint: `eslint {${module.sourceDir},tests}/**/*.ts`,
     build: 'tsc',
     test: 'jest',
   },
@@ -108,7 +109,7 @@ const tsconfig = module => ({
     strictNullChecks: true,
   },
   include: [
-    'src',
+    `${module.sourceDir}`,
   ],
   exclude: [
     'node_modules',
@@ -190,7 +191,7 @@ copy(
 export default [
   { value: tsconfig(module), file: 'tsconfig.json' },
   { value: jkPackage(module), file: 'package.json' },
-  { value: helloWorld, file: `src/${module.name}.ts`, overwrite: false },
+  { value: helloWorld, file: `${module.sourceDir}/${module.name}.ts`, overwrite: false },
   { value: Makefile(module), file: 'Makefile' },
   { value: travis(module), file: '.travis.yml' },
   { value: README(module), file: 'README.md' },
