@@ -1,7 +1,13 @@
 import * as std from '@jkcfg/std';
+import * as merge from '@jkcfg/std/merge';
 import * as param from '@jkcfg/std/param';
 
-const module = param.Object('module');
+const module = function() {
+  return merge.patch({
+    version: '0.1.0',
+    organization: 'jkcfg',
+  }, param.Object('module'));
+}();
 
 function copy(...filenames) {
   for (const filename of filenames) {
@@ -13,7 +19,7 @@ function copy(...filenames) {
 }
 
 const jkPackage = module => ({
-  name: `@jkcfg/${module.name}`,
+  name: `@${module.organization}/${module.name}`,
   version: `${module.version}`,
   description: `${module.description}`,
   module: `${module.name}.js`,
@@ -24,7 +30,7 @@ const jkPackage = module => ({
   },
   repository: {
     type: 'git',
-    url: `git+https://github.com/jkcfg/${module.name}.git`,
+    url: `git+https://github.com/${module.organization}/${module.name}.git`,
   },
   keywords: [
     'configuration',
@@ -34,9 +40,9 @@ const jkPackage = module => ({
   author: 'The jk Authors',
   license: 'Apache-2.0',
   bugs: {
-    url: `https://github.com/jkcfg/${module.name}/issues`,
+    url: `https://github.com/${module.organization}/${module.name}/issues`,
   },
-  homepage: `https://github.com/jkcfg/${module.name}#readme`,
+  homepage: `https://github.com/${module.organization}/${module.name}#readme`,
   dependencies: {},
   devDependencies: {
     '@jkcfg/std': '^0.2.7',
@@ -73,10 +79,10 @@ const jkPackage = module => ({
       '<rootDir>/tests/*.test.ts',
     ],
     transformIgnorePatterns: [
-      '<rootDir>/@jkcfg/',
+      `<rootDir>/@${module.organization}/`,
     ],
     modulePathIgnorePatterns: [
-      '<rootDir>/@jkcfg/',
+      `<rootDir>/@${module.organization}/`,
     ],
     moduleDirectories: [
       '<rootDir>/node_modules',
@@ -86,7 +92,7 @@ const jkPackage = module => ({
 
 const tsconfig = module => ({
   compilerOptions: {
-    outDir: `@jkcfg/${module.name}`,
+    outDir: `@${module.organization}/${module.name}`,
     allowJs: true,
     target: 'es2017',
     module: 'es6',
@@ -125,10 +131,10 @@ all: dist
 
 dist:
 	npx tsc
-	cp README.md LICENSE package.json @jkcfg/${module.name}
+	cp README.md LICENSE package.json @${module.organization}/${module.name}
 
 clean:
-	rm -rf @jkcfg
+	rm -rf @${module.organization}
 `.trim();
 
 const travis = module => ({
@@ -154,8 +160,8 @@ const travis = module => ({
       script: [
         // build and publish
         'make dist',
-        `echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > @jkcfg/${module.name}/.npmrc`,
-        `(cd @jkcfg/${module.name} && npm publish --access public)`,
+        `echo "//registry.npmjs.org/:_authToken=\${NPM_TOKEN}" > @${module.organization}/${module.name}/.npmrc`,
+        `(cd @${module.organization}/${module.name} && npm publish --access public)`,
       ],
       if: 'tag IS present',
     }],
@@ -163,7 +169,7 @@ const travis = module => ({
 });
 
 const README = module => `
-# @jkcfg/${module.name}
+# @${module.organization}/${module.name}
 
 ${module.description}.
 `.trim();
